@@ -1,12 +1,20 @@
 package com.dev.articlePlatform.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
-@Table
-public class UserModel {
+@Table(name = "User")
+public class UserModel implements Serializable, UserDetails {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +36,12 @@ public class UserModel {
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ArticleModel> articles;
 
+    @ManyToMany
+    @JoinTable(name = "User2RoleRel",
+            joinColumns = {@JoinColumn(name = "user")},
+            inverseJoinColumns = {@JoinColumn(name = "role")})
+    private Set<RoleModel> roles = new HashSet<>();
+
     public long getId() {
         return id;
     }
@@ -40,8 +54,39 @@ public class UserModel {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> simpleGrantedAuthorityList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(this.getRoles())){
+            this.getRoles().forEach(role -> {
+                simpleGrantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_" + role.getCode()));
+            });
+        }
+        return simpleGrantedAuthorityList;
     }
 
     public String getPassword() {
@@ -74,5 +119,13 @@ public class UserModel {
 
     public void setArticles(Set<ArticleModel> articles) {
         this.articles = articles;
+    }
+
+    public Set<RoleModel> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleModel> roles) {
+        this.roles = roles;
     }
 }

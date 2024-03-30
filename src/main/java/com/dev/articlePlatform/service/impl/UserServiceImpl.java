@@ -1,8 +1,8 @@
 package com.dev.articlePlatform.service.impl;
 
 import com.dev.articlePlatform.dao.UserDao;
-import com.dev.articlePlatform.model.UserModel;
 import com.dev.articlePlatform.service.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.annotation.Resource;
 
@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public UserModel findByUsername(String username){
+    public UserDetails findByUsername(String username){
         return userDao.findByUsername(username);
     }
 }

@@ -15,6 +15,8 @@
     <context:property-placeholder location="/resources/application.properties"/>
     <mvc:resources mapping="/resources/**" location="/resources/*"/>
 
+    <import resource="security-context.xml" />
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
@@ -34,6 +36,7 @@
             <list>
                 <value>com.dev.articlePlatform.model.UserModel</value>
                 <value>com.dev.articlePlatform.model.ArticleModel</value>
+                <value>com.dev.articlePlatform.model.RoleModel</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -45,10 +48,9 @@
         </property>
     </bean>
 
-    <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-
     <bean id="userDao" class="com.dev.articlePlatform.dao.impl.UserDaoImpl" />
+    <bean id="defaultDao" class="com.dev.articlePlatform.dao.impl.DefaultDaoImpl" />
+
     <bean id="userService" class="com.dev.articlePlatform.service.impl.UserServiceImpl" />
-    <bean id="userFacade" class="com.dev.articlePlatform.facade.impl.UserFacadeImpl" />
 
 </beans>

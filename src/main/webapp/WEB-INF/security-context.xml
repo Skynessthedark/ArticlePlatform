@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.dev.articlePlatform"/>
+
+    <security:authentication-manager id="customAuthenticationManager">
+        <security:authentication-provider ref="defaultAuthenticationProvider"/>
+    </security:authentication-manager>
+
+    <security:http use-expressions="true" entry-point-ref="authEntryPoint">
+        <security:csrf disabled="true" />
+        <security:intercept-url pattern="/article/statistic*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/user*" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
+        <security:custom-filter ref="defaultAuthenticationFilter" after="PRE_AUTH_FILTER"/>
+    </security:http>
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+    <bean id="defaultAuthenticationProvider" class="com.dev.articlePlatform.security.provider.DefaultAuthenticationProvider" />
+
+    <bean id="defaultAuthenticationFilter" class="com.dev.articlePlatform.security.filter.DefaultAuthenticationFilter" />
+
+    <bean id="authEntryPoint" class="com.dev.articlePlatform.security.point.AuthEntryPoint" />
+
+</beans>

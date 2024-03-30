@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 public class UserDaoImpl implements UserDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
-    private static final String FROM = "FROM UserModel";
+    private static final String FROM = "FROM UserModel as u JOIN FETCH u.roles";
     private static final String FIND_BY_USERNAME = " WHERE username=:username";
 
     @Resource

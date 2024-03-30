@@ -1,8 +1,8 @@
 package com.dev.articlePlatform.service;
 
-import com.dev.articlePlatform.model.UserModel;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService {
 
-    UserModel findByUsername(String username);
+    UserDetails findByUsername(String username);
 }
