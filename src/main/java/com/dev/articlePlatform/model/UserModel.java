@@ -16,6 +16,9 @@ public class UserModel implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
 
+    @Transient
+    private static final String ROLE_PREFIX = "ROLE_";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -83,7 +86,7 @@ public class UserModel implements Serializable, UserDetails {
         List<SimpleGrantedAuthority> simpleGrantedAuthorityList = new ArrayList<>();
         if(!CollectionUtils.isEmpty(this.getRoles())){
             this.getRoles().forEach(role -> {
-                simpleGrantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_" + role.getCode()));
+                simpleGrantedAuthorityList.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getCode()));
             });
         }
         return simpleGrantedAuthorityList;

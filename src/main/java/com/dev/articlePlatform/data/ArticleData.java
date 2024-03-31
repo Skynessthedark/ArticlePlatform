@@ -1,0 +1,50 @@
+package com.dev.articlePlatform.data;
+
+public class ArticleData {
+
+    private String id;
+    private String title;
+    private String creationDate;
+    private String content;
+    private AuthorData author;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public AuthorData getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AuthorData author) {
+        this.author = author;
+    }
+}

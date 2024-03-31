@@ -13,7 +13,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String getHomePage() {
-        return "Welcome";
+        return "Welcome To Article Platform";
     }
 
     @PostMapping("/user")
