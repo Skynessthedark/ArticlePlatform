@@ -1,5 +1,7 @@
-package com.dev.articlePlatform.data;
+package com.dev.articlePlatform.data.response;
 
+import com.dev.articlePlatform.data.ArticleData;
+import com.dev.articlePlatform.data.ResultData;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;

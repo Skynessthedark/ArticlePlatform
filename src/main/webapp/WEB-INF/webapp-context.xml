@@ -50,6 +50,7 @@
 
     <bean id="userDao" class="com.dev.articlePlatform.dao.impl.UserDaoImpl" />
     <bean id="defaultDao" class="com.dev.articlePlatform.dao.impl.DefaultDaoImpl" />
+    <bean id="articleDao" class="com.dev.articlePlatform.dao.impl.ArticleDaoImpl" />
 
     <bean id="userService" class="com.dev.articlePlatform.service.impl.UserServiceImpl" />
     <bean id="ArticleService" class="com.dev.articlePlatform.service.impl.ArticleServiceImpl" />

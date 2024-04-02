@@ -2,6 +2,8 @@ package com.dev.articlePlatform.service;
 
 import com.dev.articlePlatform.model.ArticleModel;
 
+import java.util.List;
+
 public interface ArticleService {
 
     ArticleModel getById(long id);
@@ -9,4 +11,6 @@ public interface ArticleService {
     boolean saveOrUpdate(ArticleModel articleModel);
 
     boolean delete(ArticleModel articleModel);
+
+    List<ArticleModel> getAll();
 }

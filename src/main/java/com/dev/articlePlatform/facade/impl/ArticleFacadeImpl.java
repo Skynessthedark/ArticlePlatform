@@ -1,7 +1,8 @@
 package com.dev.articlePlatform.facade.impl;
 
 import com.dev.articlePlatform.data.ArticleData;
-import com.dev.articlePlatform.data.ArticleResponse;
+import com.dev.articlePlatform.data.response.ArticleListResponse;
+import com.dev.articlePlatform.data.response.ArticleResponse;
 import com.dev.articlePlatform.data.ResultData;
 import com.dev.articlePlatform.facade.ArticleFacade;
 import com.dev.articlePlatform.model.ArticleModel;
@@ -14,10 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticleFacadeImpl implements ArticleFacade {
 
@@ -92,6 +96,32 @@ public class ArticleFacadeImpl implements ArticleFacade {
             return response;
         }catch (Exception ex){
             LOGGER.error("getExp: ", ex);
+            response.setResult(generateResult(errorStatus, ex.getMessage()));
+            return response;
+        }
+    }
+
+    @Override
+    public ArticleListResponse getAllArticles() {
+        ArticleListResponse response = new ArticleListResponse();
+        try {
+            List<ArticleModel> articleModelList = articleService.getAll();
+            if(CollectionUtils.isEmpty(articleModelList)){
+                response.setResult(generateResult(successStatus, articleNotFoundMessage));
+                return response;
+            }
+            List<ArticleData> articleDataList = new ArrayList<>();
+            articleModelList.forEach(articleModel -> {
+                ArticleData articleData = new ArticleData();
+                articleDataPopulator.populate(articleModel, articleData);
+                articleDataList.add(articleData);
+            });
+
+            response.setArticles(articleDataList);
+            response.setResult(generateResult(successStatus, successMessage));
+            return response;
+        }catch (Exception ex){
+            LOGGER.error("getAllArticlesExp: ", ex);
             response.setResult(generateResult(errorStatus, ex.getMessage()));
             return response;
         }
