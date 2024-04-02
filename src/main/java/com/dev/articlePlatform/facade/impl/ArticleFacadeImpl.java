@@ -39,8 +39,8 @@ public class ArticleFacadeImpl implements ArticleFacade {
     @Value("${message.success}")
     private String successMessage;
 
-    @Value("${article.create.message.success}")
-    private String createSuccessMessage;
+    @Value("${article.save.message.success}")
+    private String saveSuccessMessage;
 
     @Value("${user.not.found}")
     private String userNotFoundMessage;
@@ -71,7 +71,7 @@ public class ArticleFacadeImpl implements ArticleFacade {
             articleModelPopulator.populate(articleData, articleModel);
             articleModel.setAuthor(userModel);
             articleService.saveOrUpdate(articleModel);
-            return generateResult(successStatus, createSuccessMessage);
+            return generateResult(successStatus, saveSuccessMessage);
         }catch (Exception ex){
             LOGGER.error("saveExp: ", ex);
             return generateResult(errorStatus, ex.getMessage());
@@ -82,10 +82,12 @@ public class ArticleFacadeImpl implements ArticleFacade {
     public ArticleResponse get(String articleId) {
         ArticleResponse response = new ArticleResponse();
         try {
-            ArticleModel articleModel;
-            try {
-                articleModel = createOrGetArticle(articleId);
-            }catch (EntityNotFoundException enfEx){
+            if(StringUtils.isEmpty(articleId)){
+                response.setResult(generateResult(errorStatus, articleNotFoundMessage));
+                return response;
+            }
+            ArticleModel articleModel = articleService.getById(Long.parseLong(articleId));
+            if(articleModel == null){
                 response.setResult(generateResult(errorStatus, articleNotFoundMessage));
                 return response;
             }
@@ -124,6 +126,26 @@ public class ArticleFacadeImpl implements ArticleFacade {
             LOGGER.error("getAllArticlesExp: ", ex);
             response.setResult(generateResult(errorStatus, ex.getMessage()));
             return response;
+        }
+    }
+
+    @Override
+    public ResultData delete(String articleId) {
+        try {
+            if(StringUtils.isEmpty(articleId)){
+                return generateResult(errorStatus, articleNotFoundMessage);
+            }
+            ArticleModel articleModel = articleService.getById(Long.parseLong(articleId));
+            if(articleModel == null){
+                return generateResult(errorStatus, articleNotFoundMessage);
+            }
+            boolean status = articleService.delete(articleModel);
+            return status?
+                    generateResult(successStatus, successMessage):
+                    generateResult(errorStatus, errorMessage);
+        }catch (Exception ex){
+            LOGGER.error("saveExp: ", ex);
+            return generateResult(errorStatus, ex.getMessage());
         }
     }
 

@@ -25,7 +25,6 @@ public class ArticleController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResultData saveArticle(@RequestBody ArticleData articleData) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return articleFacade.save(articleData, getPrincipal());
     }
 
@@ -41,8 +40,16 @@ public class ArticleController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ArticleListResponse saveArticle() {
+    public ArticleListResponse getAllArticles() {
         return articleFacade.getAllArticles();
+    }
+
+    @RequestMapping(value = "/delete/{id}",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResultData deleteArticle(@PathVariable(value = "id") String articleId) {
+        return articleFacade.delete(articleId);
     }
 
     private String getPrincipal(){

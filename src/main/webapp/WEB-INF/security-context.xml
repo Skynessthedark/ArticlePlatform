@@ -20,7 +20,6 @@
         <security:csrf disabled="true" />
         <security:intercept-url pattern="/article/statistic*" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/article*" access="isAuthenticated()"/>
-        <security:intercept-url pattern="/user*" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>
         <security:custom-filter ref="defaultAuthenticationFilter" after="PRE_AUTH_FILTER"/>
     </security:http>

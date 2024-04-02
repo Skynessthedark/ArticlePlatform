@@ -11,4 +11,6 @@ public interface ArticleFacade {
     ArticleResponse get(String articleId);
 
     ArticleListResponse getAllArticles();
+
+    ResultData delete(String articleId);
 }
