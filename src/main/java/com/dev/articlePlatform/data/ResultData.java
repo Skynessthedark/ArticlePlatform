@@ -1,6 +1,12 @@
 package com.dev.articlePlatform.data;
 
-public class ResultData {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.io.Serializable;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ResultData implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String message;
     private String status;

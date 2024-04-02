@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Role")
-public class RoleModel implements Serializable {
+public class RoleModel extends ItemModel {
 
     private static final long serialVersionUID = 1L;
 

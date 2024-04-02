@@ -1,6 +1,11 @@
 package com.dev.articlePlatform.data;
 
-public class AuthorData {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AuthorData extends ItemData {
+
+    private static final long serialVersionUID = 1L;
 
     private String id;
     private String name;

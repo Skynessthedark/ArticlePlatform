@@ -55,6 +55,8 @@
     <bean id="ArticleService" class="com.dev.articlePlatform.service.impl.ArticleServiceImpl" />
 
     <bean id="articleModelPopulator" class="com.dev.articlePlatform.populator.impl.ArticleModelPopulator" />
+    <bean id="articleDataPopulator" class="com.dev.articlePlatform.populator.impl.ArticleDataPopulator" />
+    <bean id="authorDataPopulator" class="com.dev.articlePlatform.populator.impl.AuthorDataPopulator" />
 
     <bean id="articleFacade" class="com.dev.articlePlatform.facade.impl.ArticleFacadeImpl" />
 

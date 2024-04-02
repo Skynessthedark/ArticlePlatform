@@ -1,11 +1,12 @@
 package com.dev.articlePlatform.facade.impl;
 
 import com.dev.articlePlatform.data.ArticleData;
-import com.dev.articlePlatform.data.AuthorData;
+import com.dev.articlePlatform.data.ArticleResponse;
 import com.dev.articlePlatform.data.ResultData;
 import com.dev.articlePlatform.facade.ArticleFacade;
 import com.dev.articlePlatform.model.ArticleModel;
 import com.dev.articlePlatform.model.UserModel;
+import com.dev.articlePlatform.populator.impl.ArticleDataPopulator;
 import com.dev.articlePlatform.populator.impl.ArticleModelPopulator;
 import com.dev.articlePlatform.service.ArticleService;
 import com.dev.articlePlatform.service.UserService;
@@ -31,6 +32,9 @@ public class ArticleFacadeImpl implements ArticleFacade {
     @Value("${message.error}")
     private String errorMessage;
 
+    @Value("${message.success}")
+    private String successMessage;
+
     @Value("${article.create.message.success}")
     private String createSuccessMessage;
 
@@ -52,6 +56,9 @@ public class ArticleFacadeImpl implements ArticleFacade {
     @Resource
     private ArticleModelPopulator articleModelPopulator;
 
+    @Resource
+    private ArticleDataPopulator articleDataPopulator;
+
     @Override
     public ResultData save(ArticleData articleData, String username) {
         try {
@@ -67,17 +74,40 @@ public class ArticleFacadeImpl implements ArticleFacade {
         }
     }
 
+    @Override
+    public ArticleResponse get(String articleId) {
+        ArticleResponse response = new ArticleResponse();
+        try {
+            ArticleModel articleModel;
+            try {
+                articleModel = createOrGetArticle(articleId);
+            }catch (EntityNotFoundException enfEx){
+                response.setResult(generateResult(errorStatus, articleNotFoundMessage));
+                return response;
+            }
+            ArticleData articleData = new ArticleData();
+            articleDataPopulator.populate(articleModel, articleData);
+            response.setArticle(articleData);
+            response.setResult(generateResult(successStatus, successMessage));
+            return response;
+        }catch (Exception ex){
+            LOGGER.error("getExp: ", ex);
+            response.setResult(generateResult(errorStatus, ex.getMessage()));
+            return response;
+        }
+    }
+
     private ResultData generateResult(String status, String message){
         return new ResultData(status, message);
     }
 
     private ArticleModel createOrGetArticle(String id){
         if(StringUtils.hasText(id)){
-            ArticleModel articleModel = articleService.getById(Long.getLong(id));
+            ArticleModel articleModel = articleService.getById(Long.parseLong(id));
             if(articleModel == null){
                 throw new EntityNotFoundException(articleNotFoundMessage);
             }
-            return articleService.getById(Long.getLong(id));
+            return articleModel;
         }
         return new ArticleModel();
     }

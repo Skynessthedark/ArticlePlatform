@@ -23,8 +23,7 @@ public class DefaultDaoImpl implements DefaultDao {
     public Object findById(Class entityClass, long id) {
         try {
             Session session = sessionFactory.getCurrentSession();
-            session.get(entityClass, id);
-            return true;
+            return session.get(entityClass, id);
         } catch (Exception e) {
             LOGGER.error("saveOrUpdateExp: ", e);
             return false;

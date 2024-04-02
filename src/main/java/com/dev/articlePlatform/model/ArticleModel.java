@@ -10,7 +10,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Article")
-public class ArticleModel {
+public class ArticleModel extends ItemModel{
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
