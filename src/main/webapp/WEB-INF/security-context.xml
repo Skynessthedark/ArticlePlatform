@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.dev.articlePlatform"/>
+    <context:component-scan base-package="com.dev.articleplatform"/>
 
     <security:authentication-manager id="customAuthenticationManager">
         <security:authentication-provider ref="defaultAuthenticationProvider"/>
@@ -26,10 +26,10 @@
 
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
-    <bean id="defaultAuthenticationProvider" class="com.dev.articlePlatform.security.provider.DefaultAuthenticationProvider" />
+    <bean id="defaultAuthenticationProvider" class="com.dev.articleplatform.security.provider.DefaultAuthenticationProvider" />
 
-    <bean id="defaultAuthenticationFilter" class="com.dev.articlePlatform.security.filter.DefaultAuthenticationFilter" />
+    <bean id="defaultAuthenticationFilter" class="com.dev.articleplatform.security.filter.DefaultAuthenticationFilter" />
 
-    <bean id="authEntryPoint" class="com.dev.articlePlatform.security.point.AuthEntryPoint" />
+    <bean id="authEntryPoint" class="com.dev.articleplatform.security.point.AuthEntryPoint" />
 
 </beans>
